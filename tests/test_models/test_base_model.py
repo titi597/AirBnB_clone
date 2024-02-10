@@ -38,6 +38,14 @@ class TestBaseModel(unittest.TestCase):
         expected_str = f"[BaseModel] ({obj.id}) {obj.__dict__}"
         self.assertEqual(obj_str, expected_str)
 
+    def test_init_with_dict(self):
+        obj = BaseModel()
+        obj_dict = obj.to_dict()
+        new_obj = BaseModel(**obj_dict)
+        self.assertEqual(obj.id, new_obj.id)
+        self.assertEqual(obj.created_at, new_obj.created_at)
+        self.assertEqual(obj.updated_at, new_obj.updated_at)
+
 
 if __name__ == '__main__':
     unittest.main()
