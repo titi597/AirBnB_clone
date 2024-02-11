@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """filestorage."""
 import json
+from models.user import User
 
 
 class FileStorage:
