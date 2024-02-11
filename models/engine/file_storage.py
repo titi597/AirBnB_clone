@@ -31,6 +31,15 @@ class FileStorage:
 
     def reload(self):
         from models.base_model import BaseModel
+        classes = {
+            "BaseModel": BaseModel,
+            "User": User,
+            "State": State,
+            "City": City,
+            "Amenity": Amenity,
+            "Place": Place,
+            "Review": Review
+        }
         try:
             with open(self.__file_path, 'r') as file:
                 data = json.load(file)
@@ -40,7 +49,3 @@ class FileStorage:
                     self.__objects[key] = cls(**val)
         except FileNotFoundError:
             pass
-
-    def classes(self):
-        """Returns a list of class names stored in __objects."""
-        return [cls.split('.')[0] for cls in self.__objects.keys()]
