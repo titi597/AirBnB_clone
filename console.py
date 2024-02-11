@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+This module implements a command line interpreter for HBNB project.
+"""
 import cmd
 from models import storage
 from models.base_model import BaseModel
@@ -11,6 +14,10 @@ from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
+    """
+    Command interpreter for the HBNB project.
+    """
+
     prompt = "(hbnb) "
 
     def do_quit(self, arg):
@@ -19,7 +26,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, arg):
         """EOF command to exit the program"""
-        print("")
+        print("")  # Print a new line before exiting
         return True
 
     def emptyline(self):
@@ -108,3 +115,11 @@ class HBNBCommand(cmd.Cmd):
             return
         if len(args) == 3:
             print("** value missing **")
+            return
+        obj = objects[key]
+        setattr(obj, args[2], args[3])
+        storage.save()
+
+
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()
