@@ -12,4 +12,5 @@ class StorageManager:
             cls._instance.reload()
         return cls._instance
 
+
 storage = StorageManager.get_instance()
