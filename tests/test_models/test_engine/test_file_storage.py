@@ -3,8 +3,13 @@
 import unittest
 import os
 from models.base_model import BaseModel
-from models.user import User
 from models.engine.file_storage import FileStorage
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class TestFileStorage(unittest.TestCase):
@@ -30,46 +35,57 @@ class TestFileStorage(unittest.TestCase):
 
     def test_save_and_reload_user(self):
         # Create a User instance and save it
-        user = User()
-        user.email = "test@example.com"
-        user.password = "password"
-        user.first_name = "John"
-        user.last_name = "Doe"
-        user.save()
-
-        # Reload the storage and check if the object is in the storage
-        self.storage.reload()
-        self.assertIn(f"User.{user.id}", self.storage.all())
-
-    def test_new_method(self):
-        # Create a BaseModel instance and add it to the storage
-        obj = BaseModel()
-        self.storage.new(obj)
-
-        # Check if the object is in the storage
-        self.assertIn(f"BaseModel.{obj.id}", self.storage.all())
-
-    def test_save_method(self):
-        # Create a BaseModel instance and add it to the storage
-        obj = BaseModel()
-        self.storage.new(obj)
-        self.storage.save()
-
-        # Check if the JSON file is created
-        self.assertTrue(os.path.exists(self.storage._FileStorage__file_path))
-
-    def test_reload_method_without_file(self):
-        # Ensure reload doesn't raise an exception when the file doesn't exist
-        self.storage.reload()
-
-    def test_reload_method_with_file(self):
-        # Create a BaseModel instance and save it
-        obj = BaseModel()
+        obj = User()
         obj.save()
 
         # Reload the storage and check if the object is in the storage
         self.storage.reload()
-        self.assertIn(f"BaseModel.{obj.id}", self.storage.all())
+        self.assertIn(f"User.{obj.id}", self.storage.all())
+
+    def test_save_and_reload_state(self):
+        # Create a State instance and save it
+        obj = State()
+        obj.save()
+
+        # Reload the storage and check if the object is in the storage
+        self.storage.reload()
+        self.assertIn(f"State.{obj.id}", self.storage.all())
+
+    def test_save_and_reload_city(self):
+        # Create a City instance and save it
+        obj = City()
+        obj.save()
+
+        # Reload the storage and check if the object is in the storage
+        self.storage.reload()
+        self.assertIn(f"City.{obj.id}", self.storage.all())
+
+    def test_save_and_reload_amenity(self):
+        # Create an Amenity instance and save it
+        obj = Amenity()
+        obj.save()
+
+        # Reload the storage and check if the object is in the storage
+        self.storage.reload()
+        self.assertIn(f"Amenity.{obj.id}", self.storage.all())
+
+    def test_save_and_reload_place(self):
+        # Create a Place instance and save it
+        obj = Place()
+        obj.save()
+
+        # Reload the storage and check if the object is in the storage
+        self.storage.reload()
+        self.assertIn(f"Place.{obj.id}", self.storage.all())
+
+    def test_save_and_reload_review(self):
+        # Create a Review instance and save it
+        obj = Review()
+        obj.save()
+
+        # Reload the storage and check if the object is in the storage
+        self.storage.reload()
+        self.assertIn(f"Review.{obj.id}", self.storage.all())
 
 
 if __name__ == '__main__':

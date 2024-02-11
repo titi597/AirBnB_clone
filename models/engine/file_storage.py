@@ -14,11 +14,16 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
+    def __init__(self):
+        """Initialize FileStorage instance."""
+        self.reload()
+
     def all(self):
         return self.__objects
 
     def new(self, obj):
-        key = "{}.{}".format(type(obj).__name__, obj.id)
+        """Add obj to __objects with key <obj class name>.id."""
+        key = f"{type(obj).__name__}.{obj.id}"
         self.__objects[key] = obj
 
     def save(self):
