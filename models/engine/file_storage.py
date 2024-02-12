@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import json
 import cmd
-from models import storage
 from models.base_model import BaseModel
 from models.state import State
 from models.city import City
