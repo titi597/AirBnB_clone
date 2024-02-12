@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-import cmd
 from models import storage
-from models.base_model import BaseModel
 from models.user import User
 
 
@@ -18,7 +16,7 @@ class HBNBCommand(cmd.Cmd):
             new_instance = eval(arg)()
             new_instance.save()
             print(new_instance.id)
-        except NameError:
+        except:
             print("** class doesn't exist **")
 
     def do_show(self, arg):
@@ -98,7 +96,8 @@ class HBNBCommand(cmd.Cmd):
         if args[0] not in ["BaseModel", "User"]:
             print("** class doesn't exist **")
             return
-        print([str(obj) for key, obj in objects.items() if args[0] in key])
+        print([str(obj) for key, obj in objects.items()
+               if key.split('.')[0] == args[0]])
 
     def do_quit(self, arg):
         """Quits the command line"""
