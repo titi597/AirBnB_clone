@@ -90,8 +90,14 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         objects = storage.all()
-        print([str(obj) for obj in objects.values()
-               if not arg or type(obj).__name__ == arg])
+        if arg:
+            filtered_objects = {
+                    key: obj for key, obj in objects.items()
+                    if isinstance(obj, eval(arg))
+                    }
+            print([str(obj) for obj in filtered_objects.values()])
+        else:
+            print([str(obj) for obj in objects.values()])
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id"""
