@@ -28,7 +28,11 @@ class FileStorage:
                 data = json.load(file)
                 for key, val in data.items():
                     class_name, obj_id = key.split('.')
-                    cls = BaseModel
+                    cls = eval(class_name)
                     self.__objects[key] = cls(**val)
         except FileNotFoundError:
             pass
+
+    def classes(self):
+        """Returns a list of class names stored in __objects."""
+        return [cls.split('.')[0] for cls in self.__objects.keys()]
