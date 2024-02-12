@@ -1,11 +1,5 @@
 #!/usr/bin/python3
 import json
-from models.user import User
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.place import Place
-from models.review import Review
 
 
 class FileStorage:
@@ -22,9 +16,9 @@ class FileStorage:
     def save(self):
         serialized_objs = {
             key: obj.to_dict()
-            for key, obj in FileStorage.__objects.items()
+            for key, obj in self.__objects.items()
         }
-        with open(FileStorage.__file_path, 'w') as file:
+        with open(self.__file_path, 'w') as file:
             json.dump(serialized_objs, file)
 
     def reload(self):
