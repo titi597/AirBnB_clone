@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+This module implements a command line interpreter for HBNB project.
+"""
 import cmd
 from models import storage
 from models.base_model import BaseModel
@@ -11,6 +14,10 @@ from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
+    """
+    Command interpreter for the HBNB project.
+    """
+
     prompt = "(hbnb) "
 
     def do_quit(self, arg):
@@ -19,7 +26,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, arg):
         """EOF command to exit the program"""
-        print("")
+        print("")  # Print a new line before exiting
         return True
 
     def emptyline(self):
@@ -89,18 +96,28 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, arg):
         """Updates an instance based on the class name and id"""
         args = arg.split()
-        if len(args) < 3:
-            print("** missing arguments **")
+        if len(args) == 0:
+            print("** class name missing **")
             return
         if args[0] not in storage.classes():
             print("** class doesn't exist **")
+            return
+        if len(args) == 1:
+            print("** instance id missing **")
             return
         key = args[0] + '.' + args[1]
         objects = storage.all()
         if key not in objects:
             print("** no instance found **")
             return
-        setattr(objects[key], args[2], args[3])
+        if len(args) == 2:
+            print("** attribute name missing **")
+            return
+        if len(args) == 3:
+            print("** value missing **")
+            return
+        obj = objects[key]
+        setattr(obj, args[2], args[3])
         storage.save()
 
 
