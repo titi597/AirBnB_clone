@@ -6,11 +6,6 @@ import cmd
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.place import Place
-from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
@@ -90,14 +85,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         objects = storage.all()
-        if arg:
-            filtered_objects = {
-                    key: obj for key, obj in objects.items()
-                    if isinstance(obj, eval(arg))
-                    }
-            print([str(obj) for obj in filtered_objects.values()])
-        else:
-            print([str(obj) for obj in objects.values()])
+        print([str(obj) for obj in objects.values()
+               if not arg or type(obj).__name__ == arg])
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id"""
