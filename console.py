@@ -5,7 +5,6 @@ This module implements a command line interpreter for HBNB project.
 import cmd
 from models import storage
 from models.base_model import BaseModel
-from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
@@ -29,7 +28,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, arg):
-        """Creates a new instance of BaseModel or User, saves it, and the id"""
+        """Creates a new instance of BaseModel, saves it, and the id"""
         if not arg:
             print("** class name missing **")
             return
