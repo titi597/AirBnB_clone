@@ -1,7 +1,4 @@
 #!/usr/bin/python3
-"""
-This module implements a command line interpreter for HBNB project.
-"""
 import cmd
 from models import storage
 from models.base_model import BaseModel
@@ -9,27 +6,11 @@ from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
-    """
-    Command interpreter for the HBNB project.
-    """
-
+    """HBNBCommand class"""
     prompt = "(hbnb) "
 
-    def do_quit(self, arg):
-        """Quit command to exit the program"""
-        return True
-
-    def do_EOF(self, arg):
-        """EOF command to exit the program"""
-        print("")  # Print a new line before exiting
-        return True
-
-    def emptyline(self):
-        """Do nothing on empty line"""
-        pass
-
     def do_create(self, arg):
-        """Creates a new instance of BaseModel, saves it, and the id"""
+        """Creates a new instance of BaseModel"""
         if not arg:
             print("** class name missing **")
             return
@@ -41,80 +22,96 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def do_show(self, arg):
-        """Prints the string representation of an instance"""
-        args = arg.split()
-        if len(args) == 0:
+        """Prints the string representation of an instance
+        based on the class name and id"""
+        if not arg:
             print("** class name missing **")
             return
-        if args[0] not in storage._FileStorage__objects:
+        args = arg.split()
+        if args[0] not in ["BaseModel", "User"]:
             print("** class doesn't exist **")
             return
-        if len(args) == 1:
+        if len(args) < 2:
             print("** instance id missing **")
             return
-        key = args[0] + '.' + args[1]
-        objects = storage._FileStorage__objects
-        if key in objects:
-            print(objects[key])
-        else:
+        key = "{}.{}".format(args[0], args[1])
+        all_objects = storage.all()
+        if key not in all_objects:
             print("** no instance found **")
+            return
+        print(all_objects[key])
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id"""
-        args = arg.split()
-        if len(args) == 0:
+        if not arg:
             print("** class name missing **")
             return
-        if args[0] not in storage.classes():
+        args = arg.split()
+        if args[0] not in ["BaseModel", "User"]:
             print("** class doesn't exist **")
             return
-        if len(args) == 1:
+        if len(args) < 2:
             print("** instance id missing **")
             return
-        key = args[0] + '.' + args[1]
-        objects = storage.all()
-        if key in objects:
-            del objects[key]
-            storage.save()
-        else:
+        key = "{}.{}".format(args[0], args[1])
+        all_objects = storage.all()
+        if key not in all_objects:
             print("** no instance found **")
-
-    def do_all(self, arg):
-        """Prints all string representations of all instances"""
-        if arg and arg not in storage._FileStorage__objects:
-            print("** class doesn't exist **")
             return
-        objects = storage._FileStorage__objects
-        print([str(obj) for obj in objects.values()
-               if not arg or type(obj).__name__ == arg])
+        del all_objects[key]
+        storage.save()
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id"""
-        args = arg.split()
-        if len(args) == 0:
+        if not arg:
             print("** class name missing **")
             return
-        if args[0] not in storage._FileStorage__objects:
+        args = arg.split()
+        if args[0] not in ["BaseModel", "User"]:
             print("** class doesn't exist **")
             return
-        if len(args) == 1:
+        if len(args) < 2:
             print("** instance id missing **")
             return
-        key = args[0] + '.' + args[1]
-        objects = storage._FileStorage__objects
-        if key not in objects:
+        key = "{}.{}".format(args[0], args[1])
+        all_objects = storage.all()
+        if key not in all_objects:
             print("** no instance found **")
             return
-        if len(args) == 2:
+        if len(args) < 3:
             print("** attribute name missing **")
             return
-        if len(args) == 3:
+        if len(args) < 4:
             print("** value missing **")
             return
-        obj = objects[key]
-        setattr(obj, args[2], args[3])
+        setattr(all_objects[key], args[2], args[3])
         storage.save()
 
+    def do_all(self, arg):
+        """Prints all string representation of all instances
+        based or not on the class name"""
+        objects = storage.all()
+        if not arg:
+            print([str(obj) for obj in objects.values()])
+            return
+        args = arg.split()
+        if args[0] not in ["BaseModel", "User"]:
+            print("** class doesn't exist **")
+            return
+        print([str(obj) for key, obj in objects.items() if args[0] in key])
 
-if __name__ == '__main__':
+    def do_quit(self, arg):
+        """Quits the command line"""
+        return True
+
+    def do_EOF(self, arg):
+        """Exits the command line"""
+        return True
+
+    def emptyline(self):
+        """Handles empty line"""
+        pass
+
+
+if __name__ == "__main__":
     HBNBCommand().cmdloop()
