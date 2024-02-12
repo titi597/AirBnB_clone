@@ -46,14 +46,14 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print("** class name missing **")
             return
-        if args[0] not in storage.classes():
+        if args[0] not in storage._FileStorage__objects:
             print("** class doesn't exist **")
             return
         if len(args) == 1:
             print("** instance id missing **")
             return
         key = args[0] + '.' + args[1]
-        objects = storage.all()
+        objects = storage._FileStorage__objects
         if key in objects:
             print(objects[key])
         else:
@@ -81,10 +81,10 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, arg):
         """Prints all string representations of all instances"""
-        if arg and arg not in storage.classes():
+        if arg and arg not in storage._FileStorage__objects:
             print("** class doesn't exist **")
             return
-        objects = storage.all()
+        objects = storage._FileStorage__objects
         print([str(obj) for obj in objects.values()
                if not arg or type(obj).__name__ == arg])
 
@@ -94,14 +94,14 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print("** class name missing **")
             return
-        if args[0] not in storage.classes():
+        if args[0] not in storage._FileStorage__objects:
             print("** class doesn't exist **")
             return
         if len(args) == 1:
             print("** instance id missing **")
             return
         key = args[0] + '.' + args[1]
-        objects = storage.all()
+        objects = storage._FileStorage__objects
         if key not in objects:
             print("** no instance found **")
             return
