@@ -1,10 +1,14 @@
 #!/usr/bin/python3
+""" defining basemodels."""
 import uuid
 from datetime import datetime
 
 
 class BaseModel:
+    """representing basemodel."""
+
     def __init__(self):
+        """Initializing basemodels."""
         self.id = str(uuid.uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
