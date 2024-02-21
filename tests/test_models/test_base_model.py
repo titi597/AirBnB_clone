@@ -34,6 +34,13 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(obj_dict['created_at'], str)
         self.assertIsInstance(obj_dict['updated_at'], str)
 
+    def test_create_instance_from_dict(self):
+        obj_dict = self.base_model.to_dict()
+        new_model = BaseModel(**obj_dict)
+        self.assertEqual(new_model.id, self.base_model.id)
+        self.assertEqual(new_model.created_at, self.base_model.created_at)
+        self.assertEqual(new_model.updated_at, self.base_model.updated_at)
+
 
 if __name__ == '__main__':
     unittest.main()
